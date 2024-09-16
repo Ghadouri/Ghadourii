@@ -21,20 +21,19 @@
             height: 100vh; /* ملء الشاشة */
             background-color: #4CAF50;
             color: white;
-            padding: 20px;
-            text-align: center;
             box-sizing: border-box;
             position: fixed;
             top: 0;
             left: 0;
             z-index: 1000;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* محاذاة أفقية للنص */
+            align-items: center;     /* محاذاة عمودية للنص */
+            text-align: center;      /* ضمان أن يكون النص في وسط العنصر */
         }
 
         main {
-            margin-top: 100vh; /* لضمان عدم تداخل المحتوى مع الرأس */
+            margin-top: 100vh; /* لضمان عدم تداخل المحتوى مع الهيدر */
             padding: 20px;
         }
 
@@ -50,7 +49,7 @@
             border-collapse: collapse;
             background-color: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            font-size: 1rem;
+            font-size: 1rem; /* حجم الخط في الجدول */
         }
 
         table, th, td {
@@ -71,7 +70,7 @@
 
         td input {
             width: 100%;
-            padding: 10px;
+            padding: 10px; /* زيادة التباعد داخل الخلايا */
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 1rem;
@@ -97,7 +96,7 @@
         @media (min-width: 769px) {
             table {
                 font-size: 1rem;
-                max-width: 1200px;
+                max-width: 1200px; /* أقصى عرض للجدول */
             }
 
             td input {
@@ -155,27 +154,79 @@
             </tr>
         </thead>
         <tbody id="company-table">
-            <!-- محتوى الجدول -->
+            <tr>
+                <td><input type="text" id="company1-name" placeholder="اسم المدرسة 1"></td>
+                <td><input type="number" id="company1-service1" min="1" max="10" value="5"></td>
+                <td><input type="number" id="company1-service2" min="0" max="5" value="4"></td>
+                <td><input type="number" id="company1-service3" min="0" max="5" value="3"></td>
+                <td><input type="number" id="company1-service4" min="0" max="8" value="6"></td>
+                <td><input type="number" id="company1-service5" min="0" max="5" value="4"></td>
+                <td><input type="number" id="company1-service6" min="0" max="3" value="2"></td>
+                <td><input type="number" id="company1-service7" min="0" max="3" value="1"></td>
+                <td><input type="number" id="company1-service8" min="0" max="1" value="1"></td>
+                <td><span id="company1-result"></span></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="company2-name" placeholder="اسم المدرسة 2"></td>
+                <td><input type="number" id="company2-service1" min="1" max="10" value="7"></td>
+                <td><input type="number" id="company2-service2" min="0" max="5" value="3"></td>
+                <td><input type="number" id="company2-service3" min="0" max="5" value="4"></td>
+                <td><input type="number" id="company2-service4" min="0" max="8" value="5"></td>
+                <td><input type="number" id="company2-service5" min="0" max="5" value="3"></td>
+                <td><input type="number" id="company2-service6" min="0" max="3" value="3"></td>
+                <td><input type="number" id="company2-service7" min="0" max="3" value="2"></td>
+                <td><input type="number" id="company2-service8" min="0" max="1" value="0.5"></td>
+                <td><span id="company2-result"></span></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="company3-name" placeholder="اسم المدرسة 3"></td>
+                <td><input type="number" id="company3-service1" min="1" max="10" value="4"></td>
+                <td><input type="number" id="company3-service2" min="0" max="5" value="2"></td>
+                <td><input type="number" id="company3-service3" min="0" max="5" value="5"></td>
+                <td><input type="number" id="company3-service4" min="0" max="8" value="7"></td>
+                <td><input type="number" id="company3-service5" min="0" max="5" value="4"></td>
+                <td><input type="number" id="company3-service6" min="0" max="3" value="1"></td>
+                <td><input type="number" id="company3-service7" min="0" max="3" value="1.5"></td>
+                <td><input type="number" id="company3-service8" min="0" max="1" value="1"></td>
+                <td><span id="company3-result"></span></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="company4-name" placeholder="اسم المدرسة 4"></td>
+                <td><input type="number" id="company4-service1" min="1" max="10" value="6"></td>
+                <td><input type="number" id="company4-service2" min="0" max="5" value="5"></td>
+                <td><input type="number" id="company4-service3" min="0" max="5" value="4"></td>
+                <td><input type="number" id="company4-service4" min="0" max="8" value="8"></td>
+                <td><input type="number" id="company4-service5" min="0" max="5" value="3"></td>
+                <td><input type="number" id="company4-service6" min="0" max="3" value="2"></td>
+                <td><input type="number" id="company4-service7" min="0" max="3" value="2.5"></td>
+                <td><input type="number" id="company4-service8" min="0" max="1" value="1"></td>
+                <td><span id="company4-result"></span></td>
+            </tr>
         </tbody>
     </table>
 
-    <h2>حساب النتائج</h2>
-    <button onclick="calculateResults()">حساب النتائج</button>
-
-    <script>
-        function calculateResults() {
-            for (let i = 1; i <= 4; i++) {
-                let total = 0;
-                for (let j = 1; j <= 8; j++) {
-                    let input = document.getElementById(`company${i}-service${j}`);
-                    total += parseFloat(input.value) || 0;
-                }
-                let resultElement = document.getElementById(`company${i}-result`);
-                resultElement.textContent = total.toFixed(2);
-            }
-        }
-    </script>
+    <button onclick="calculateResults()">احسب النتائج</button>
 </main>
+
+<script>
+    function calculateResults() {
+        const companies = [1, 2, 3, 4];
+
+        companies.forEach(company => {
+            const service1 = parseFloat(document.getElementById(`company${company}-service1`).value);
+            const service2 = parseFloat(document.getElementById(`company${company}-service2`).value);
+            const service3 = parseFloat(document.getElementById(`company${company}-service3`).value);
+            const service4 = parseFloat(document.getElementById(`company${company}-service4`).value);
+            const service5 = parseFloat(document.getElementById(`company${company}-service5`).value);
+            const service6 = parseFloat(document.getElementById(`company${company}-service6`).value);
+            const service7 = parseFloat(document.getElementById(`company${company}-service7`).value);
+            const service8 = parseFloat(document.getElementById(`company${company}-service8`).value);
+
+            const total = service1 + service2 + service3 + service4 + service5 + service6 + service7 + service8;
+            document.getElementById(`company${company}-result`).innerText = total;
+        });
+    }
+</script>
 
 </body>
 
