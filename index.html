@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>مقياس قدوري لاختيار مدرسة</title>
     <style>
         body {
@@ -13,16 +13,20 @@
             margin: 0;
             padding: 0;
         }
-        h1, h2 {
-            text-align: center;
-            color: #333;
-        }
         h1 {
             background-color: #4CAF50;
             color: white;
             padding: 20px;
             margin: 0;
-            font-size: 2rem; /* حجم متناسق بين الأجهزة */
+            font-size: 2rem;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
         }
         table {
             width: 90%;
@@ -90,54 +94,7 @@
         </tr>
     </thead>
     <tbody id="company-table">
-        <tr>
-            <td><input type="text" id="company1-name" placeholder="اسم المدرسة 1"></td>
-            <td><input type="number" id="company1-service1" min="1" max="10" value="5"></td>
-            <td><input type="number" id="company1-service2" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company1-service3" min="0" max="5" value="3"></td>
-            <td><input type="number" id="company1-service4" min="0" max="8" value="6"></td>
-            <td><input type="number" id="company1-service5" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company1-service6" min="0" max="3" value="2"></td>
-            <td><input type="number" id="company1-service7" min="0" max="3" value="1"></td>
-            <td><input type="number" id="company1-service8" min="0" max="1" value="1"></td>
-            <td><span id="company1-result"></span></td>
-        </tr>
-        <tr>
-            <td><input type="text" id="company2-name" placeholder="اسم المدرسة 2"></td>
-            <td><input type="number" id="company2-service1" min="1" max="10" value="7"></td>
-            <td><input type="number" id="company2-service2" min="0" max="5" value="3"></td>
-            <td><input type="number" id="company2-service3" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company2-service4" min="0" max="8" value="5"></td>
-            <td><input type="number" id="company2-service5" min="0" max="5" value="3"></td>
-            <td><input type="number" id="company2-service6" min="0" max="3" value="3"></td>
-            <td><input type="number" id="company2-service7" min="0" max="3" value="2"></td>
-            <td><input type="number" id="company2-service8" min="0" max="1" value="0.5"></td>
-            <td><span id="company2-result"></span></td>
-        </tr>
-        <tr>
-            <td><input type="text" id="company3-name" placeholder="اسم المدرسة 3"></td>
-            <td><input type="number" id="company3-service1" min="1" max="10" value="4"></td>
-            <td><input type="number" id="company3-service2" min="0" max="5" value="2"></td>
-            <td><input type="number" id="company3-service3" min="0" max="5" value="5"></td>
-            <td><input type="number" id="company3-service4" min="0" max="8" value="7"></td>
-            <td><input type="number" id="company3-service5" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company3-service6" min="0" max="3" value="1"></td>
-            <td><input type="number" id="company3-service7" min="0" max="3" value="1.5"></td>
-            <td><input type="number" id="company3-service8" min="0" max="1" value="1"></td>
-            <td><span id="company3-result"></span></td>
-        </tr>
-        <tr>
-            <td><input type="text" id="company4-name" placeholder="اسم المدرسة 4"></td>
-            <td><input type="number" id="company4-service1" min="1" max="10" value="6"></td>
-            <td><input type="number" id="company4-service2" min="0" max="5" value="5"></td>
-            <td><input type="number" id="company4-service3" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company4-service4" min="0" max="8" value="8"></td>
-            <td><input type="number" id="company4-service5" min="0" max="5" value="5"></td>
-            <td><input type="number" id="company4-service6" min="0" max="3" value="3"></td>
-            <td><input type="number" id="company4-service7" min="0" max="3" value="2"></td>
-            <td><input type="number" id="company4-service8" min="0" max="1" value="0.8"></td>
-            <td><span id="company4-result"></span></td>
-        </tr>
+        <!-- Add your rows here -->
     </tbody>
 </table>
 
@@ -150,8 +107,13 @@
         for (let i = 1; i <= 4; i++) {
             let total = 0;
             for (let j = 1; j <= 8; j++) {
-                let serviceValue = parseFloat(document.getElementById(`company${i}-service${j}`).value);
-                total += serviceValue;
+                let input = document.getElementById(`company${i}-service${j}`);
+                let value = parseFloat(input.value);
+                if (isNaN(value) || value < parseFloat(input.min) || value > parseFloat(input.max)) {
+                    alert(`القيمة المدخلة في الصف ${i}, العمود ${j} غير صحيحة.`);
+                    return;
+                }
+                total += value;
             }
             document.getElementById(`company${i}-result`).innerText = total.toFixed(2);
         }
