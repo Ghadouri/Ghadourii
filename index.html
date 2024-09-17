@@ -3,165 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مقياس قدوري لاختيار مدرسة</title>
+    <title>مقياس قدوري</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-            text-align: right;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        h1, h2 {
-            text-align: center;
-            color: #333;
-        }
-        h1 {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            margin: 0;
-            font-size: 2rem; /* حجم متناسق بين الأجهزة */
-        }
+        /* تحسين شكل الجدول */
         table {
-            width: 90%;
-            margin: 20px auto;
+            width: 100%;
             border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            font-size: 18px;
         }
-        table, th, td {
+
+        th, td {
             border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
         }
+
         th {
             background-color: #4CAF50;
             color: white;
-            padding: 15px;
-            font-size: 1rem;
         }
-        td {
-            padding: 10px;
-            font-size: 0.9rem;
-        }
-        td input {
-            width: 100%;
-            padding: 5px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        /* اجعل التصميم متجاوبًا */
-        @media (max-width: 768px) {
-            table, th, td {
-                font-size: 0.8rem;
+
+        /* تحسين عرض الجدول على الهواتف */
+        @media (max-width: 600px) {
+            table {
+                width: 100%; /* اجعل الجدول يملأ العرض المتاح */
+                font-size: 14px; /* تقليل حجم الخط */
             }
-            h1 {
-                font-size: 1.5rem;
+
+            th, td {
+                padding: 8px; /* تقليل الحشو داخل الخلايا */
             }
+
             button {
-                width: 90%;
-                padding: 10px;
-                font-size: 0.9rem;
+                font-size: 16px; /* تقليل حجم خط الزر */
+                padding: 10px; /* تقليل الحشو داخل الزر */
             }
+        }
+
+        /* اجعل الجدول قابلاً للتمرير أفقياً على الشاشات الصغيرة */
+        .table-container {
+            overflow-x: auto;
         }
     </style>
 </head>
 <body>
 
-<h1>مقياس قدوري</h1>
+<h2>مقياس قدوري</h2>
 
-<h2>مفاضلة المدارس</h2>
-
-<table>
-    <thead>
-        <tr>
-            <th>المدرسة</th>
-            <th>الرسوم (من 1 إلى 10)</th>
-            <th>الموقع (من 0 إلى 5)</th>
-            <th>المرافق (من 0 إلى 5)</th>
-            <th>الكادر التعليمي (من 0 إلى 8)</th>
-            <th>أساليب التعليم (من 0 إلى 5)</th>
-            <th>النظام الداخلي (من 0 إلى 3)</th>
-            <th>الأنشطة اللاصفية (من 0 إلى 3)</th>
-            <th>تقييم المدرسة (من 0 إلى 1)</th>
-            <th>النتيجة النهائية</th>
-        </tr>
-    </thead>
-    <tbody id="company-table">
-        <tr>
-            <td><input type="text" id="company1-name" placeholder="اسم المدرسة 1"></td>
-            <td><input type="number" id="company1-service1" min="1" max="10" value="5"></td>
-            <td><input type="number" id="company1-service2" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company1-service3" min="0" max="5" value="3"></td>
-            <td><input type="number" id="company1-service4" min="0" max="8" value="6"></td>
-            <td><input type="number" id="company1-service5" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company1-service6" min="0" max="3" value="2"></td>
-            <td><input type="number" id="company1-service7" min="0" max="3" value="1"></td>
-            <td><input type="number" id="company1-service8" min="0" max="1" value="1"></td>
-            <td><span id="company1-result"></span></td>
-        </tr>
-        <tr>
-            <td><input type="text" id="company2-name" placeholder="اسم المدرسة 2"></td>
-            <td><input type="number" id="company2-service1" min="1" max="10" value="7"></td>
-            <td><input type="number" id="company2-service2" min="0" max="5" value="3"></td>
-            <td><input type="number" id="company2-service3" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company2-service4" min="0" max="8" value="5"></td>
-            <td><input type="number" id="company2-service5" min="0" max="5" value="3"></td>
-            <td><input type="number" id="company2-service6" min="0" max="3" value="3"></td>
-            <td><input type="number" id="company2-service7" min="0" max="3" value="2"></td>
-            <td><input type="number" id="company2-service8" min="0" max="1" value="0.5"></td>
-            <td><span id="company2-result"></span></td>
-        </tr>
-        <tr>
-            <td><input type="text" id="company3-name" placeholder="اسم المدرسة 3"></td>
-            <td><input type="number" id="company3-service1" min="1" max="10" value="4"></td>
-            <td><input type="number" id="company3-service2" min="0" max="5" value="2"></td>
-            <td><input type="number" id="company3-service3" min="0" max="5" value="5"></td>
-            <td><input type="number" id="company3-service4" min="0" max="8" value="7"></td>
-            <td><input type="number" id="company3-service5" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company3-service6" min="0" max="3" value="1"></td>
-            <td><input type="number" id="company3-service7" min="0" max="3" value="1.5"></td>
-            <td><input type="number" id="company3-service8" min="0" max="1" value="1"></td>
-            <td><span id="company3-result"></span></td>
-        </tr>
-        <tr>
-            <td><input type="text" id="company4-name" placeholder="اسم المدرسة 4"></td>
-            <td><input type="number" id="company4-service1" min="1" max="10" value="6"></td>
-            <td><input type="number" id="company4-service2" min="0" max="5" value="5"></td>
-            <td><input type="number" id="company4-service3" min="0" max="5" value="4"></td>
-            <td><input type="number" id="company4-service4" min="0" max="8" value="8"></td>
-            <td><input type="number" id="company4-service5" min="0" max="5" value="5"></td>
-            <td><input type="number" id="company4-service6" min="0" max="3" value="3"></td>
-            <td><input type="number" id="company4-service7" min="0" max="3" value="2"></td>
-            <td><input type="number" id="company4-service8" min="0" max="1" value="0.8"></td>
-            <td><span id="company4-result"></span></td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>المدرسة</th>
+                <th>الرسوم (من 1 إلى 10)</th>
+                <th>الموقع (من 0 إلى 5)</th>
+                <th>المرافق (من 0 إلى 5)</th>
+                <th>الكادر التعليمي (من 0 إلى 8)</th>
+                <th>أساليب التعليم (من 0 إلى 5)</th>
+                <th>النظام الداخلي (من 0 إلى 3)</th>
+                <th>الأنشطة اللاصفية (من 0 إلى 3)</th>
+                <th>تقييم المدرسة (من 0 إلى 1)</th>
+                <th>النتيجة النهائية</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>اسم المدرسة 1</td>
+                <td><input type="number" id="company1-service1" value="5"></td>
+                <td><input type="number" id="company1-service2" value="4"></td>
+                <td><input type="number" id="company1-service3" value="3"></td>
+                <td><input type="number" id="company1-service4" value="6"></td>
+                <td><input type="number" id="company1-service5" value="4"></td>
+                <td><input type="number" id="company1-service6" value="2"></td>
+                <td><input type="number" id="company1-service7" value="1"></td>
+                <td><input type="number" id="company1-service8" value="1"></td>
+                <td id="company1-result"></td>
+            </tr>
+            <!-- أضف صفوف المدارس الأخرى هنا -->
+        </tbody>
+    </table>
+</div>
 
 <h2>حساب النتائج</h2>
-
 <button onclick="calculateResults()">حساب النتائج</button>
 
 <script>
     function calculateResults() {
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= 4; i++) { // افترضنا أن هناك 4 مدارس. يمكن تغيير العدد حسب الحاجة
             let total = 0;
             for (let j = 1; j <= 8; j++) {
                 let serviceValue = parseFloat(document.getElementById(`company${i}-service${j}`).value);
