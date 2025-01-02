@@ -6,25 +6,39 @@ async function downloadPDF() {
     const arabicFont = await fetch('https://cdn.jsdelivr.net/gh/alif-type/amiri-webfont/Amiri-Regular.ttf')
         .then(response => response.arrayBuffer());
 
+    // إضافة الخط إلى ملف PDF
     doc.addFileToVFS('Amiri-Regular.ttf', arabicFont);
     doc.addFont('Amiri-Regular.ttf', 'Amiri', 'normal');
-    doc.setFont('Amiri');
+    doc.setFont('Amiri', 'normal');
 
+    // إضافة عنوان الملف
+    doc.setFontSize(14);
     doc.text('نتائج الطلاب', 10, 10);
 
+    // استهداف الجدول وتحويله إلى PDF
     const table = document.getElementById('results-table');
     const rows = table.querySelectorAll('tr');
 
-    let y = 20;
-    rows.forEach((row) => {
+    let y = 30; // المسافة الرأسية
+    rows.forEach((row, rowIndex) => {
         const cells = row.querySelectorAll('th, td');
         let text = '';
-        cells.forEach(cell => {
-            text += cell.textContent + '   ';
+
+        cells.forEach((cell) => {
+            text += cell.textContent.trim() + '   ';
         });
-        doc.text(text, 10, y);
-        y += 10;
+
+        // إذا كان الصف هو العنوان، اجعله غامقًا
+        if (rowIndex === 0) {
+            doc.setFont(undefined, 'bold');
+        } else {
+            doc.setFont(undefined, 'normal');
+        }
+
+        doc.text(text, 10, y, { align: 'right' });
+        y += 10; // التباعد بين الصفوف
     });
 
-    doc.save('نتائج الطلاب.pdf');
+    // حفظ ملف PDF
+    doc.save('نتائج_الطلاب.pdf');
 }
