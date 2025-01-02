@@ -47,8 +47,6 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            width: 100%;
-            margin-top: 10px;
         }
         button:hover {
             background-color: #45a049;
@@ -80,6 +78,10 @@
                 padding: 10px;
                 font-size: 14px;
             }
+            button {
+                width: 100%;
+                padding: 12px;
+            }
             table {
                 font-size: 14px;
             }
@@ -89,22 +91,6 @@
             h1 {
                 font-size: 20px;
             }
-            button {
-                padding: 12px;
-            }
-            table {
-                font-size: 12px;
-            }
-        }
-
-        /* تنسيق النص في أسفل الصفحة */
-        .footer {
-            text-align: center;
-            font-size: 14px;
-            padding: 10px;
-            margin-top: 30px;
-            background-color: #4CAF50;
-            color: white;
         }
     </style>
 </head>
@@ -174,10 +160,6 @@
         </table>
 
         <button onclick="downloadTableAsPDF()">تحميل كملف PDF</button>
-    </div>
-
-    <div class="footer">
-        صمم بواسطة قدوري
     </div>
 
     <script>
