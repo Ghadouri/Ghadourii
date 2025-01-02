@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدخال النتائج</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -157,27 +156,9 @@
             }
         }
 
-        async function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.text('نتائج الطلاب', 10, 10);
-
-            const table = document.getElementById('results-table');
-            const rows = table.querySelectorAll('tr');
-
-            let y = 20;
-            rows.forEach((row, index) => {
-                const cells = row.querySelectorAll('th, td');
-                let text = '';
-                cells.forEach(cell => {
-                    text += cell.textContent + '   ';
-                });
-                doc.text(text, 10, y);
-                y += 10;
-            });
-
-            doc.save('نتائج الطلاب.pdf');
+        function downloadPDF() {
+            // Trigger the browser print dialog (user can select "Save as PDF")
+            window.print();
         }
     </script>
 </body>
