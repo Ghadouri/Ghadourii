@@ -1,45 +1,184 @@
-async function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال النتائج</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            text-align: center;
+            padding: 8px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>إدخال النتائج</h1>
+    <div id="input-section">
+        <div class="form-group">
+            <label for="number">الرقم:</label>
+            <input type="text" id="number">
+        </div>
+        <div class="form-group">
+            <label for="name">الإسم:</label>
+            <input type="text" id="name">
+        </div>
+        <div class="form-group">
+            <label for="g1">خ1:</label>
+            <input type="number" id="g1">
+        </div>
+        <div class="form-group">
+            <label for="g2">خ2:</label>
+            <input type="number" id="g2">
+        </div>
+        <div class="form-group">
+            <label for="g3">خ3:</label>
+            <input type="number" id="g3">
+        </div>
+        <div class="form-group">
+            <label for="m1">أم1:</label>
+            <input type="number" id="m1">
+        </div>
+        <div class="form-group">
+            <label for="m2">أم2:</label>
+            <input type="number" id="m2">
+        </div>
+        <div class="form-group">
+            <label for="m3">أم3:</label>
+            <input type="number" id="m3">
+        </div>
+        <div class="form-group">
+            <label for="average">المعدل العام:</label>
+            <input type="number" id="average" readonly>
+        </div>
+        <div class="form-group">
+            <label for="total">المجموع:</label>
+            <input type="number" id="total" readonly>
+        </div>
+        <button onclick="addResult()">إضافة النتيجة</button>
+    </div>
 
-    // تحميل الخط العربي
-    const arabicFont = await fetch('https://cdn.jsdelivr.net/gh/alif-type/amiri-webfont/Amiri-Regular.ttf')
-        .then(response => response.arrayBuffer());
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th>الرقم</th>
+                <th>الإسم</th>
+                <th>خ1</th>
+                <th>خ2</th>
+                <th>خ3</th>
+                <th>أم1</th>
+                <th>أم2</th>
+                <th>أم3</th>
+                <th>المعدل العام</th>
+                <th>المجموع</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-    // إضافة الخط إلى ملف PDF
-    doc.addFileToVFS('Amiri-Regular.ttf', arabicFont);
-    doc.addFont('Amiri-Regular.ttf', 'Amiri', 'normal');
-    doc.setFont('Amiri', 'normal');
+    <button onclick="downloadPDF()">تحميل كملف PDF</button>
 
-    // إضافة عنوان الملف
-    doc.setFontSize(14);
-    doc.text('نتائج الطلاب', 10, 10);
+    <script>
+        function calculateResults() {
+            const g1 = parseFloat(document.getElementById('g1').value) || 0;
+            const g2 = parseFloat(document.getElementById('g2').value) || 0;
+            const g3 = parseFloat(document.getElementById('g3').value) || 0;
+            const m1 = parseFloat(document.getElementById('m1').value) || 0;
+            const m2 = parseFloat(document.getElementById('m2').value) || 0;
+            const m3 = parseFloat(document.getElementById('m3').value) || 0;
 
-    // استهداف الجدول وتحويله إلى PDF
-    const table = document.getElementById('results-table');
-    const rows = table.querySelectorAll('tr');
-    let y = 30;  // المسافة الرأسية بين الصفوف
+            const total = g1 * 1 + g2 * 1 + g3 * 1 + m1 * 1 + m2 * 2 + m3 * 3;
+            const average = total / 9; // مجموع الأوزان
 
-    rows.forEach((row, rowIndex) => {
-        const cells = row.querySelectorAll('th, td');
-        let text = '';
-        
-        cells.forEach((cell) => {
-            text += cell.textContent.trim() + ' ';
-        });
-
-        // إذا كان الصف هو العنوان، اجعله غامقًا
-        if (rowIndex === 0) {
-            doc.setFont(undefined, 'bold');  // جعل العنوان غامقًا
-        } else {
-            doc.setFont(undefined, 'normal');  // إعادة تنسيق الخط العادي
+            document.getElementById('average').value = average.toFixed(2);
+            document.getElementById('total').value = total.toFixed(2);
         }
 
-        // إضافة النص في الملف مع المحاذاة لليمين
-        doc.text(text, 10, y, { align: 'right' });
-        y += 10;  // التباعد بين الصفوف
-    });
+        function addResult() {
+            calculateResults();
 
-    // حفظ ملف PDF
-    doc.save('نتائج_الطلاب.pdf');
-}
+            const number = document.getElementById('number').value;
+            const name = document.getElementById('name').value;
+            const g1 = document.getElementById('g1').value;
+            const g2 = document.getElementById('g2').value;
+            const g3 = document.getElementById('g3').value;
+            const m1 = document.getElementById('m1').value;
+            const m2 = document.getElementById('m2').value;
+            const m3 = document.getElementById('m3').value;
+            const average = document.getElementById('average').value;
+            const total = document.getElementById('total').value;
+
+            if (number && name) {
+                const table = document.getElementById('results-table').querySelector('tbody');
+                const row = table.insertRow();
+                row.insertCell(0).textContent = number;
+                row.insertCell(1).textContent = name;
+                row.insertCell(2).textContent = g1;
+                row.insertCell(3).textContent = g2;
+                row.insertCell(4).textContent = g3;
+                row.insertCell(5).textContent = m1;
+                row.insertCell(6).textContent = m2;
+                row.insertCell(7).textContent = m3;
+                row.insertCell(8).textContent = average;
+                row.insertCell(9).textContent = total;
+
+                document.getElementById('number').value = '';
+                document.getElementById('name').value = '';
+                document.getElementById('g1').value = '';
+                document.getElementById('g2').value = '';
+                document.getElementById('g3').value = '';
+                document.getElementById('m1').value = '';
+                document.getElementById('m2').value = '';
+                document.getElementById('m3').value = '';
+                document.getElementById('average').value = '';
+                document.getElementById('total').value = '';
+            } else {
+                alert('يرجى تعبئة الحقول الأساسية!');
+            }
+        }
+
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.text('نتائج الطلاب', 10, 10);
+
+            const table = document.getElementById('results-table');
+            const rows = table.querySelectorAll('tr');
+
+            let y = 20;
+            rows.forEach((row, index) => {
+                const cells = row.querySelectorAll('th, td');
+                let text = '';
+                cells.forEach(cell => {
+                    text += cell.textContent + '   ';
+                });
+                doc.text(text, 10, y);
+                y += 10;
+            });
+
+            doc.save('نتائج الطلاب.pdf');
+        }
+    </script>
+</body>
+</html>
