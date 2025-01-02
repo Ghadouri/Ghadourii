@@ -1,56 +1,45 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>Download PDF</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</head>
-<body>
-    <h1>نتائج الطلاب</h1>
-    <table id="results-table" border="1">
-        <thead>
-            <tr>
-                <th>الاسم</th>
-                <th>الدرجة</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>محمد</td>
-                <td>95</td>
-            </tr>
-            <tr>
-                <td>علي</td>
-                <td>88</td>
-            </tr>
-        </tbody>
-    </table>
-    <button onclick="downloadPDF()">تحميل النتائج</button>
-    <script>
-        async function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            // تحميل خط يدعم العربية
-            const arabicFont = await fetch('https://cdn.jsdelivr.net/gh/alif-type/amiri-webfont/Amiri-Regular.ttf')
-                .then(response => response.arrayBuffer());
-            doc.addFileToVFS('Amiri-Regular.ttf', arabicFont);
-            doc.addFont('Amiri-Regular.ttf', 'Amiri', 'normal');
-            doc.setFont('Amiri');
-            doc.text('نتائج الطلاب', 10, 10);
-            const table = document.getElementById('results-table');
-            const rows = table.querySelectorAll('tr');
-            let y = 20;
-            rows.forEach((row) => {
-                const cells = row.querySelectorAll('th, td');
-                let text = '';
-                cells.forEach(cell => {
-                    text += cell.textContent + ' ';
-                });
-                doc.text(text, 10, y);
-                y += 10;
-            });
-            doc.save('نتائج الطلاب.pdf');
+async function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // تحميل الخط العربي
+    const arabicFont = await fetch('https://cdn.jsdelivr.net/gh/alif-type/amiri-webfont/Amiri-Regular.ttf')
+        .then(response => response.arrayBuffer());
+
+    // إضافة الخط إلى ملف PDF
+    doc.addFileToVFS('Amiri-Regular.ttf', arabicFont);
+    doc.addFont('Amiri-Regular.ttf', 'Amiri', 'normal');
+    doc.setFont('Amiri', 'normal');
+
+    // إضافة عنوان الملف
+    doc.setFontSize(14);
+    doc.text('نتائج الطلاب', 10, 10);
+
+    // استهداف الجدول وتحويله إلى PDF
+    const table = document.getElementById('results-table');
+    const rows = table.querySelectorAll('tr');
+    let y = 30;  // المسافة الرأسية بين الصفوف
+
+    rows.forEach((row, rowIndex) => {
+        const cells = row.querySelectorAll('th, td');
+        let text = '';
+        
+        cells.forEach((cell) => {
+            text += cell.textContent.trim() + ' ';
+        });
+
+        // إذا كان الصف هو العنوان، اجعله غامقًا
+        if (rowIndex === 0) {
+            doc.setFont(undefined, 'bold');  // جعل العنوان غامقًا
+        } else {
+            doc.setFont(undefined, 'normal');  // إعادة تنسيق الخط العادي
         }
-    </script>
-</body>
-</html>
+
+        // إضافة النص في الملف مع المحاذاة لليمين
+        doc.text(text, 10, y, { align: 'right' });
+        y += 10;  // التباعد بين الصفوف
+    });
+
+    // حفظ ملف PDF
+    doc.save('نتائج_الطلاب.pdf');
+}
